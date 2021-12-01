@@ -4,7 +4,6 @@ import viewEngine from './config/viewEngine';
 import initWebRoutes from './route/web';
 import connectDB from './config/connectDB';
 import cors from 'cors';
-import initSocket from './socket/initSocket';
 
 require('dotenv').config();
 
@@ -24,8 +23,6 @@ app.use(bodyParser.urlencoded({
 
 viewEngine(app);
 initWebRoutes(app);
-
-//initSocket(io);
 
 connectDB();
 
