@@ -3,29 +3,27 @@ const {
     Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-    class WinAuction extends Model {
+    class Job extends Model {
         /**
          * Helper method for defining associations.
          * This method is not a part of Sequelize lifecycle.
          * The `models/index` file will call this method automatically.
          */
         static associate(models) {
-            WinAuction.belongsTo(models.User, {
-                foreignKey: 'userId'
-            });
-            WinAuction.belongsTo(models.Auction, {
-                foreignKey: 'auctionId'
+            Job.belongsTo(models.User, {
+                foreignKey: 'user',
+                allowNull: false
             });
         }
     };
-    WinAuction.init({
-        auctionId: DataTypes.INTEGER,
-        userId: DataTypes.INTEGER,
-        yourBanner: DataTypes.STRING,
+    Job.init({
+        name: DataTypes.STRING,
+        user: DataTypes.INTEGER,
+        description: DataTypes.TEXT,
         status: DataTypes.INTEGER
     }, {
         sequelize,
-        modelName: 'WinAuction',
+        modelName: 'Job',
     });
-    return WinAuction;
+    return Job;
 };

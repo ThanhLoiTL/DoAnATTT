@@ -25,7 +25,7 @@ app.use(bodyParser.urlencoded({
 viewEngine(app);
 initWebRoutes(app);
 
-initSocket(io);
+//initSocket(io);
 
 connectDB();
 

@@ -11,23 +11,36 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       User.belongsTo(models.Role, {
-        foreignKey: 'roleId',
+        foreignKey: 'role',
         allowNull: false
       });
-      User.belongsToMany(models.Auction, {
-        through: 'WinAuction',
-        foreignKey: 'auctionId'
-      })
+      User.belongsTo(models.Position, {
+        foreignKey: 'position',
+        allowNull: false
+      });
+      User.belongsTo(models.Label, {
+        foreignKey: 'label',
+        allowNull: false
+      });
+      User.hasMany(models.Job, {
+        foreignKey: 'job',
+        onDelete: "cascade"
+      });
+      User.hasMany(models.Report, {
+        foreignKey: 'report',
+        onDelete: "cascade"
+      });
     }
   };
   User.init({
-    fullName: DataTypes.STRING,
+    name: DataTypes.STRING,
     email: DataTypes.STRING,
     password: DataTypes.STRING,
     phone: DataTypes.STRING,
     address: DataTypes.TEXT,
-    money: DataTypes.BIGINT,
-    roleId: DataTypes.INTEGER
+    role: DataTypes.INTEGER,
+    position: DataTypes.INTEGER,
+    label: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'User',

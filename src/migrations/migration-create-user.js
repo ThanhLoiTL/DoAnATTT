@@ -8,7 +8,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      fullName: {
+      name: {
         allowNull: false,
         type: Sequelize.STRING
       },
@@ -24,15 +24,21 @@ module.exports = {
         type: Sequelize.STRING
       },
       address: {
-        type: Sequelize.STRING
+        type: Sequelize.TEXT
       },
-      money: {
-        type: Sequelize.BIGINT
-      },
-      roleId: {
+      role: {
         allowNull: false,
         type: Sequelize.INTEGER
       },
+      position: {
+        allowNull: false,
+        type: Sequelize.INTEGER
+      },
+      label: {
+        allowNull: false,
+        type: Sequelize.INTEGER
+      },
+
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

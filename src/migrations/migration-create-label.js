@@ -1,30 +1,18 @@
 'use strict';
 module.exports = {
     up: async (queryInterface, Sequelize) => {
-        await queryInterface.createTable('Auctions', {
+        await queryInterface.createTable('Labels', {
             id: {
                 allowNull: false,
                 autoIncrement: true,
                 primaryKey: true,
                 type: Sequelize.INTEGER
             },
-            timeStart: {
+            name: {
                 allowNull: false,
-                type: Sequelize.DATE
+                type: Sequelize.STRING
             },
-            timeEnd: {
-                allowNull: false,
-                type: Sequelize.DATE
-            },
-            status: {
-                allowNull: false,
-                type: Sequelize.INTEGER
-            },
-            auctionMoney: {
-                allowNull: false,
-                type: Sequelize.BIGINT
-            },
-            bannerId: {
+            value: {
                 allowNull: false,
                 type: Sequelize.INTEGER
             },
@@ -40,6 +28,6 @@ module.exports = {
         });
     },
     down: async (queryInterface, Sequelize) => {
-        await queryInterface.dropTable('Auctions');
+        await queryInterface.dropTable('Labels');
     }
 };
