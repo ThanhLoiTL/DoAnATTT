@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
          * The `models/index` file will call this method automatically.
          */
         static associate(models) {
-            Partner.belongsTo(models.Lable, {
+            Partner.belongsTo(models.Label, {
                 foreignKey: 'label',
                 allowNull: false
             });

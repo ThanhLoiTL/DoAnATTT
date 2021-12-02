@@ -16,6 +16,10 @@ module.exports = {
                 allowNull: false,
                 type: Sequelize.INTEGER
             },
+            role: {
+                allowNull: false,
+                type: Sequelize.INTEGER
+            },
             description: {
                 allowNull: false,
                 type: Sequelize.TEXT

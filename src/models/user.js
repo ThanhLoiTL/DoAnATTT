@@ -23,11 +23,11 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false
       });
       User.hasMany(models.Job, {
-        foreignKey: 'job',
+        foreignKey: 'user',
         onDelete: "cascade"
       });
       User.hasMany(models.Report, {
-        foreignKey: 'report',
+        foreignKey: 'user',
         onDelete: "cascade"
       });
     }
@@ -38,6 +38,7 @@ module.exports = (sequelize, DataTypes) => {
     password: DataTypes.STRING,
     phone: DataTypes.STRING,
     address: DataTypes.TEXT,
+    avatar: DataTypes.TEXT,
     role: DataTypes.INTEGER,
     position: DataTypes.INTEGER,
     label: DataTypes.INTEGER

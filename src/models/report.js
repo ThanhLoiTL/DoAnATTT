@@ -14,6 +14,10 @@ module.exports = (sequelize, DataTypes) => {
                 foreignKey: 'user',
                 allowNull: false
             });
+            Report.belongsTo(models.Label, {
+                foreignKey: 'label',
+                allowNull: false
+            });
         }
     };
     Report.init({

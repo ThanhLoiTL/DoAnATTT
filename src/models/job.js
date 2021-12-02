@@ -14,11 +14,16 @@ module.exports = (sequelize, DataTypes) => {
                 foreignKey: 'user',
                 allowNull: false
             });
+            Job.belongsTo(models.Role, {
+                foreignKey: 'role',
+                allowNull: false
+            });
         }
     };
     Job.init({
         name: DataTypes.STRING,
         user: DataTypes.INTEGER,
+        role: DataTypes.INTEGER,
         description: DataTypes.TEXT,
         status: DataTypes.INTEGER
     }, {

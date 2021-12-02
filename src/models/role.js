@@ -15,7 +15,11 @@ module.exports = (sequelize, DataTypes) => {
                 onDelete: "cascade"
             });
             Role.hasMany(models.Project, {
-                foreignKey: 'project',
+                foreignKey: 'role',
+                onDelete: "cascade"
+            });
+            Role.hasMany(models.Job, {
+                foreignKey: 'role',
                 onDelete: "cascade"
             });
         }

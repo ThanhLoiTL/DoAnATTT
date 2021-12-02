@@ -15,19 +15,19 @@ module.exports = (sequelize, DataTypes) => {
                 onDelete: "cascade"
             });
             Label.hasMany(models.Partner, {
-                foreignKey: 'partner',
+                foreignKey: 'label',
                 onDelete: "cascade"
             });
             Label.hasMany(models.Project, {
-                foreignKey: 'project',
+                foreignKey: 'label',
                 onDelete: "cascade"
             });
             Label.hasMany(models.User, {
-                foreignKey: 'user',
+                foreignKey: 'label',
                 onDelete: "cascade"
             });
             Label.hasMany(models.Report, {
-                foreignKey: 'report',
+                foreignKey: 'label',
                 onDelete: "cascade"
             });
         }

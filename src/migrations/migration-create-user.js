@@ -26,6 +26,9 @@ module.exports = {
       address: {
         type: Sequelize.TEXT
       },
+      avatar: {
+        type: Sequelize.TEXT
+      },
       role: {
         allowNull: false,
         type: Sequelize.INTEGER
