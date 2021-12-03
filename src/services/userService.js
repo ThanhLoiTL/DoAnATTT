@@ -22,7 +22,7 @@ let handleLogin = (email, password) => {
                         userData.errCode = 0;
                         userData.message = 'OK';
                         //khong hien thi password ra ngoai
-                        //delete user.password;
+                        delete user.password;
                         userData.user = user;
                     } else {
                         userData.errCode = 3;
@@ -98,8 +98,44 @@ let getUserById = (idUser) => {
     })
 }
 
+let postUser = (data) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            if (data.name && data.email && data.password && data.phone && data.address && data.avatar && data.role && data.position) {
+                let isExistEmail = await checkEmail(data.email);
+                if (isExistEmail) {
+                    resolve({
+                        message: "Email da ton tai"
+                    });
+                } else {
+                    await db.User.create({
+                        name: data.name,
+                        email: data.email,
+                        password: data.password,
+                        phone: data.phone,
+                        address: data.address,
+                        avatar: data.avatar,
+                        role: data.role,
+                        position: data.position,
+                        label: 1 //chua xong
+                    })
+                    resolve({
+                        message: "Thanh cong"
+                    });
+                }
+            }
+            resolve({
+                message: "That bai"
+            });
+        } catch (e) {
+            reject(e);
+        }
+    })
+}
+
 module.exports = {
     handleLogin: handleLogin,
     getUserByRole: getUserByRole,
-    getUserById: getUserById
+    getUserById: getUserById,
+    postUser: postUser
 }

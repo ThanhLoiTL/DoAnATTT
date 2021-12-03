@@ -45,9 +45,14 @@ let getUserById = async (req, res) => {
         user: user ? user : {}
     });
 }
+let postUser = async (req, res) => {
+    let message = await userService.postUser(req.body);
+    return res.status(200).json(message);
+}
 
 module.exports = {
     handleLogin: handleLogin,
     getUserByRole: getUserByRole,
-    getUserById: getUserById
+    getUserById: getUserById,
+    postUser: postUser
 }

@@ -7,6 +7,12 @@ let getAllPartner = async (req, res) => {
     });
 }
 
+let postPartner = async (req, res) => {
+    let message = await partnerService.postPartner(req.body);
+    return res.status(200).json(message);
+}
+
 module.exports = {
-    getAllPartner: getAllPartner
+    getAllPartner: getAllPartner,
+    postPartner: postPartner
 }
