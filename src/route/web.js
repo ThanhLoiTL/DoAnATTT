@@ -37,6 +37,7 @@ let initWebRoutes = (app) => {
     //API Project
     router.get('/api/getProjectByRole', projectController.getProjectByRole);
     router.get('/api/getProjectByUser', projectController.getProjectByUser);
+    router.post('/api/postProjectByRole', projectController.postProjectByRole);
 
     //API Report
     router.post('/api/postReport', reportController.postReport);

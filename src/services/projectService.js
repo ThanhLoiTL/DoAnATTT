@@ -40,7 +40,38 @@ let getProjectByUser = (userId) => {
     })
 }
 
+let postProjectByRole = (roleId) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            if (data.name && data.description && data.userId) {
+                let user = await db.User.findOne({
+                    where: {
+                        id: data.userId
+                    }
+                });
+                if (user) {
+                    await db.Project.create({
+                        name: data.name,
+                        description: data.description,
+                        label: user.label,
+                        role: roleId
+                    })
+                    resolve({
+                        message: "Thanh cong"
+                    });
+                }
+            }
+            resolve({
+                message: "That bai"
+            });
+        } catch (e) {
+            reject(e);
+        }
+    })
+}
+
 module.exports = {
     getProjectByRole: getProjectByRole,
-    getProjectByUser: getProjectByUser
+    getProjectByUser: getProjectByUser,
+    postProjectByRole: postProjectByRole
 }
