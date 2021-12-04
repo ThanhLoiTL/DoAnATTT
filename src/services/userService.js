@@ -25,6 +25,7 @@ let handleLogin = (email, password) => {
                         payload.name = user.name;
 
                         userData.token = generateJWT(payload);
+                        console.log(userData.token = generateJWT(payload));
                         userData.errCode = 0;
                         userData.message = 'OK';
                         //khong hien thi password ra ngoai
@@ -142,9 +143,25 @@ let postUser = (data) => {
     })
 }
 
+let getUser = (data) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let user = await db.User.findOne({
+                where: {
+                    id: data.userId
+                }
+            });
+            resolve(user);
+        } catch (e) {
+            reject(e);
+        }
+    })
+}
+
 module.exports = {
     handleLogin: handleLogin,
     getUserByRole: getUserByRole,
     getUserById: getUserById,
-    postUser: postUser
+    postUser: postUser,
+    getUser: getUser
 }

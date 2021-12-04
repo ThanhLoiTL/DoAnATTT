@@ -6,7 +6,7 @@ import contractController from "../controllers/contractController";
 import positionController from "../controllers/positionController";
 import projectController from "../controllers/projectController";
 import reportController from "../controllers/reportController";
-import authentication from "../authentication.authenticationToken";
+import authentication from "../authentication/authenticationToken";
 
 let router = express.Router();
 
@@ -15,6 +15,7 @@ let initWebRoutes = (app) => {
     //API User
     router.post('/api/login', userController.handleLogin);
     router.get('/api/getUserByRole', authentication, userController.getUserByRole);
+    router.get('/api/getUser', authentication, userController.getUser);
     router.get('/api/getUserById', userController.getUserById);
     router.post('/api/postUser', userController.postUser);
 

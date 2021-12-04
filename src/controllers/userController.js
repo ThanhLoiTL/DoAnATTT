@@ -14,6 +14,7 @@ let handleLogin = async (req, res) => {
     return res.status(200).json({
         errCode: userData.errCode,
         message: userData.message,
+        token: userData.token,
         user: userData.user ? userData.user : {}
     })
 }
@@ -49,10 +50,15 @@ let postUser = async (req, res) => {
     let message = await userService.postUser(req.body);
     return res.status(200).json(message);
 }
+let getUser = async (req, res) => {
+    let user = await userService.getUser(req.user);
+    return res.status(200).json(user);
+}
 
 module.exports = {
     handleLogin: handleLogin,
     getUserByRole: getUserByRole,
     getUserById: getUserById,
-    postUser: postUser
+    postUser: postUser,
+    getUser: getUser
 }
