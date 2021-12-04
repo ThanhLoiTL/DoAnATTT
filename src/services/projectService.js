@@ -40,7 +40,7 @@ let getProjectByUser = (userId) => {
     })
 }
 
-let postProjectByRole = (roleId) => {
+let postProjectByRole = (data) => {
     return new Promise(async (resolve, reject) => {
         try {
             if (data.name && data.description && data.userId) {
@@ -54,7 +54,7 @@ let postProjectByRole = (roleId) => {
                         name: data.name,
                         description: data.description,
                         label: user.label,
-                        role: roleId
+                        role: data.role
                     })
                     resolve({
                         message: "Thanh cong"

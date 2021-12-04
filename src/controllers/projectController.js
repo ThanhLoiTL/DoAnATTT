@@ -29,15 +29,7 @@ let getProjectByUser = async (req, res) => {
 }
 
 let postProjectByRole = async (req, res) => {
-    let role = req.query.role;
-    let userId = req.query.userId;
-    if (!role && !userId) {
-        return res.status(500).json({
-            errCode: 1,
-            message: 'Missing data'
-        });
-    }
-    let message = await projectService.postProjectByRole(role, userId);
+    let message = await projectService.postProjectByRole(req.body);
     return res.status(200).json({
         message: message
     });

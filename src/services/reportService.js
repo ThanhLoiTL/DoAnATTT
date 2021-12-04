@@ -22,6 +22,35 @@ let postReport = (data) => {
     })
 }
 
+let getReportByRole = (userId) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let listReport;
+            let user = await db.User.findOne({
+                where: {
+                    user: userId
+                }
+            });
+            if (user) {
+                listReport = await db.Report.findAll({
+                    include: [{
+                        model: await db.User,
+                        where: {
+                            role: user.role
+                        }
+                    }],
+                    raw: true,
+                    nest: true
+                });
+            }
+            resolve(listReport);
+        } catch (e) {
+            reject(e);
+        }
+    })
+}
+
 module.exports = {
-    postReport: postReport
+    postReport: postReport,
+    getReportByRole: getReportByRole
 }

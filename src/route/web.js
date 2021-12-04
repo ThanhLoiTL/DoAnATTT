@@ -41,6 +41,7 @@ let initWebRoutes = (app) => {
 
     //API Report
     router.post('/api/postReport', reportController.postReport);
+    router.get('/api/getReportByRole', reportController.getReportByRole);
 
     return app.use("/", router);
 }
