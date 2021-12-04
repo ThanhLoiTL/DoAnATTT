@@ -28,7 +28,7 @@ let getReportByRole = (userId) => {
             let listReport;
             let user = await db.User.findOne({
                 where: {
-                    user: userId
+                    id: userId
                 }
             });
             if (user) {

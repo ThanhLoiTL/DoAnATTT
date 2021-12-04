@@ -1,4 +1,5 @@
 import db from '../models/index';
+import authenticate from '../authentication/generateJWT'
 
 let handleLogin = (email, password) => {
     return new Promise(async (resolve, reject) => {
@@ -19,22 +20,30 @@ let handleLogin = (email, password) => {
                 })
                 if (user) {
                     if (password === user.password) {
+                        let payload = {};
+                        payload.userId = user.id;
+                        payload.name = user.name;
+
+                        userData.token = authenticate.generateJWT(payload);
                         userData.errCode = 0;
                         userData.message = 'OK';
                         //khong hien thi password ra ngoai
                         delete user.password;
-                        userData.user = user;
+                        //userData.user = user;
                     } else {
                         userData.errCode = 3;
                         userData.message = 'Password incorrect!';
+                        userData.token = 'Error';
                     }
                 } else {
                     userData.errCode = 2;
                     userData.message = 'User not exist in system!';
+                    userData.token = 'Error';
                 }
             } else {
                 userData.errCode = 1;
                 userData.message = 'Email not exist in system!';
+                userData.token = 'Error';
             }
             resolve(userData);
         } catch (e) {
