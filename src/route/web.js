@@ -14,7 +14,7 @@ let initWebRoutes = (app) => {
 
     //API User
     router.post('/api/login', userController.handleLogin);
-    router.get('/api/getUserByRole', authentication.authenticationToken, userController.getUserByRole);
+    router.get('/api/getUserByRole', authentication, userController.getUserByRole);
     router.get('/api/getUserById', userController.getUserById);
     router.post('/api/postUser', userController.postUser);
 

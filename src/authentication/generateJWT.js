@@ -6,6 +6,4 @@ let generateJWT = (payload) => {
     })
 }
 
-module.exports = {
-    generateJWT: generateJWT
-}
+module.exports = generateJWT;

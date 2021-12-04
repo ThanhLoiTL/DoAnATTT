@@ -1,5 +1,5 @@
 import db from '../models/index';
-import authenticate from '../authentication/generateJWT'
+import generateJWT from '../authentication/generateJWT'
 
 let handleLogin = (email, password) => {
     return new Promise(async (resolve, reject) => {
@@ -24,7 +24,7 @@ let handleLogin = (email, password) => {
                         payload.userId = user.id;
                         payload.name = user.name;
 
-                        userData.token = authenticate.generateJWT(payload);
+                        userData.token = generateJWT(payload);
                         userData.errCode = 0;
                         userData.message = 'OK';
                         //khong hien thi password ra ngoai
