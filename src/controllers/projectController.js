@@ -38,8 +38,39 @@ let postProjectByRole = async (req, res) => {
     });
 }
 
+let updateProject = async (req, res) => {
+    let user = req.user;
+    if (!user) {
+        return res.status(500).json({
+            message: "Missing data"
+        });
+    }
+    let mess = await projectService.updateProject(user, req.body);
+    return res.status(200).json({
+        message: mess.message,
+        errCode: mess.errCode
+    });
+}
+
+let deleteProject = async (req, res) => {
+    let user = req.user;
+    let projectId = req.query.projectId;
+    if (!projectId && !user) {
+        return res.status(500).json({
+            message: 'Missing data'
+        });
+    }
+    let mess = await projectService.deleteProject(user, projectId);
+    return res.status(200).json({
+        message: mess.message,
+        errCode: mess.errCode
+    });
+}
+
 module.exports = {
     getProjectByRole: getProjectByRole,
     getProjectByUser: getProjectByUser,
-    postProjectByRole: postProjectByRole
+    postProjectByRole: postProjectByRole,
+    updateProject: updateProject,
+    deleteProject: deleteProject
 }

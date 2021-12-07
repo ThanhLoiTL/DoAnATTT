@@ -68,7 +68,79 @@ let postContract = (data) => {
     })
 }
 
+let updateContract = (user, data) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let message = {}
+            let contract = await db.Contract.findOne({
+                where: {
+                    id: data.id
+                }
+            });
+            if (!contract) {
+                message.errCode = 1;
+                message.message = "Contract not found";
+            } else {
+                let labelOfContract = await db.Label.findOne({
+                    where: {
+                        id: contract.label
+                    }
+                });
+                if (user.label >= labelOfContract.value) {
+                    contract.name = data.name;
+                    contract.description = data.description;
+                    await contract.save();
+                    message.errCode = 0;
+                    message.message = "OK";
+                } else {
+                    message.errCode = 2;
+                    message.message = "Not Permission";
+                }
+            }
+            resolve(message);
+        } catch (e) {
+            reject(e);
+        }
+    })
+}
+
+let deleteContract = (user, contractId) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let message = {};
+            let contract = await db.Contract.findOne({
+                where: {
+                    id: contractId
+                }
+            });
+            if (contract) {
+                let labelOfContract = await db.Label.findOne({
+                    where: {
+                        id: contract.label
+                    }
+                });
+                if (user.label >= labelOfContract.value) {
+                    await contract.destroy();
+                    message.errCode = 0;
+                    message.message = "Ok";
+                } else {
+                    message.errCode = 2;
+                    message.message = "Not Permission";
+                }
+            } else {
+                message.errCode = 2;
+                message.message = "Not found data";
+            }
+            resolve(message)
+        } catch (e) {
+            reject(e);
+        }
+    })
+}
+
 module.exports = {
     getAllContract: getAllContract,
-    postContract: postContract
+    postContract: postContract,
+    updateContract: updateContract,
+    deleteContract: deleteContract
 }

@@ -39,6 +39,8 @@ let initWebRoutes = (app) => {
     //API Contract
     router.get('/api/getAllContract', authentication, contractController.getAllContract);
     router.post('/api/postContract', contractController.postContract);
+    router.put('/api/putContract', authentication, contractController.updateContract);
+    router.delete('/api/deleteContract', authentication, contractController.deleteContract);
 
     //API Position
     router.get('/api/getAllPosition', positionController.getAllPosition);
@@ -47,6 +49,8 @@ let initWebRoutes = (app) => {
     router.get('/api/getProjectByRole', authentication, projectController.getProjectByRole);
     //router.get('/api/getProjectByUser', projectController.getProjectByUser);
     router.post('/api/postProjectByRole', projectController.postProjectByRole);
+    router.put('/api/putProject', authentication, projectController.updateProject);
+    router.delete('/api/deleteProject', authentication, projectController.deleteProject);
 
     //API Report
     router.post('/api/postReport', reportController.postReport);
