@@ -17,34 +17,41 @@ let initWebRoutes = (app) => {
     router.get('/api/getUserByRole', authentication, userController.getUserByRole);
     router.get('/api/getUser', authentication, userController.getUser);
     router.get('/api/getUserById', userController.getUserById);
-    router.post('/api/postUser', userController.postUser);
+    router.post('/api/postUser', authentication, userController.postUser);
     router.get('/api/checkRoleOfUser', authentication, userController.checkRoleOfUser);
+    router.put('api/putUser', authentication, userController.updateUser);
+    router.delete('/api/deleteUser', authentication, userController.deleteUser);
 
     //API Job
-    router.get('/api/getAllJobByRole', jobController.getAllJobByRole);
+    router.get('/api/getAllJobByRole', authentication, jobController.getAllJobByRole);
     router.get('/api/getJobByUser', authentication, jobController.getJobByUser);
     router.post('/api/postJob', jobController.postJob);
     router.put('/api/putJobStatus', jobController.updateStatusJob);
+    router.put('/api/putJob', authentication, jobController.updateJob);
+    router.delete('/api/deleteJob', authentication, jobController.deleteJob);
 
-    //API Parner
-    router.get('/api/getAllPartner', partnerController.getAllPartner);
+    //API Partner
+    router.get('/api/getAllPartner', authentication, partnerController.getAllPartner);
     router.post('/api/postPartner', partnerController.postPartner);
+    router.put('/api/putPartner', authentication, partnerController.updatePartner);
+    router.delete('/api/deletePartner', authentication, partnerController.deletePartner);
 
     //API Contract
-    router.get('/api/getAllContract', contractController.getAllContract);
+    router.get('/api/getAllContract', authentication, contractController.getAllContract);
     router.post('/api/postContract', contractController.postContract);
 
     //API Position
     router.get('/api/getAllPosition', positionController.getAllPosition);
 
     //API Project
-    router.get('/api/getProjectByRole', projectController.getProjectByRole);
-    router.get('/api/getProjectByUser', projectController.getProjectByUser);
+    router.get('/api/getProjectByRole', authentication, projectController.getProjectByRole);
+    //router.get('/api/getProjectByUser', projectController.getProjectByUser);
     router.post('/api/postProjectByRole', projectController.postProjectByRole);
 
     //API Report
     router.post('/api/postReport', reportController.postReport);
-    router.get('/api/getReportByRole', reportController.getReportByRole);
+    router.get('/api/getReportByRole', authentication, reportController.getReportByRole);
+    router.delete('/api/deleteReport', authentication, reportController.deleteReport);
 
     return app.use("/", router);
 }

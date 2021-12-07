@@ -1,9 +1,17 @@
 import contractService from '../services/contractService';
 
 let getAllContract = async (req, res) => {
-    let listContract = await contractService.getAllContract();
+    let user = req.user;
+    if (!user) {
+        return res.status(500).json({
+            message: "Missing data"
+        });
+    }
+    let list = await contractService.getAllContract(user);
     return res.status(200).json({
-        listContract: listContract ? listContract : []
+        errCode: list.errCode,
+        message: list.message,
+        listContract: list.listContract ? list.listContract : []
     });
 }
 

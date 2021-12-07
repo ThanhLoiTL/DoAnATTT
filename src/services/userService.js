@@ -25,6 +25,7 @@ let handleLogin = (email, password) => {
                         payload.label = user.label;
                         payload.role = user.role;
                         payload.name = user.name;
+                        payload.position = user.position;
 
                         userData.token = generateJWT(payload);
                         userData.errCode = 0;
@@ -74,19 +75,42 @@ let checkEmail = (email) => {
     })
 }
 
-let getUserByRole = (role) => {
+let getUserByRole = (user, role) => {
     return new Promise(async (resolve, reject) => {
         try {
-            let listUser = await db.User.findAll({
-                where: {
-                    role: role
-                },
-                include: [{
-                    model: await db.Role
-                }],
-                raw: true,
-                nest: true
-            })
+            let listUser = {};
+            if (user) {
+                if (user.position != 1) {
+                    let list = await db.User.findAll({
+                        where: {
+                            role: role
+                        },
+                        include: [{
+                            model: await db.Role
+                        }],
+                        raw: true,
+                        nest: true
+                    });
+                    if (list.length > 0) {
+                        listUser.errCode = 0;
+                        listUser.message = "Ok";
+                        listUser.listUser = list;
+                    } else {
+                        listUser.errCode = 2;
+                        listUser.message = "No data";
+                        listUser.listUser = [];
+                    }
+                } else {
+                    listUser.errCode = 1;
+                    listUser.message = "Not Permission";
+                    listUser.listUser = [];
+                }
+
+            } else {
+                listUser.errCode = 3;
+                listUser.message = "Not Login";
+                listUser.listUser = [];
+            }
             resolve(listUser);
         } catch (e) {
             reject(e);
@@ -109,35 +133,38 @@ let getUserById = (idUser) => {
     })
 }
 
-let postUser = (data) => {
+let postUser = (user, data) => {
     return new Promise(async (resolve, reject) => {
         try {
-            if (data.name && data.email && data.password && data.phone && data.address && data.avatar && data.role && data.position) {
-                let isExistEmail = await checkEmail(data.email);
-                if (isExistEmail) {
-                    resolve({
-                        message: "Email da ton tai"
-                    });
-                } else {
-                    await db.User.create({
-                        name: data.name,
-                        email: data.email,
-                        password: data.password,
-                        phone: data.phone,
-                        address: data.address,
-                        avatar: data.avatar,
-                        role: data.role,
-                        position: data.position,
-                        label: 1 //chua xong
-                    })
-                    resolve({
-                        message: "Thanh cong"
-                    });
+            let message = {};
+            if (user.position != 1) {
+                if (data.name && data.email && data.password && data.phone && data.address && data.avatar && data.role && data.position) {
+                    let isExistEmail = await checkEmail(data.email);
+                    if (isExistEmail) {
+                        message.errCode = 1;
+                        message.message = "Email existed";
+                    } else {
+                        await db.User.create({
+                            name: data.name,
+                            email: data.email,
+                            password: data.password,
+                            phone: data.phone,
+                            address: data.address,
+                            avatar: data.avatar,
+                            role: data.role,
+                            position: data.position,
+                            label: 1
+                        })
+                        message.errCode = 0;
+                        message.message = "OK";
+                    }
                 }
+            } else {
+                message.errCode = 3;
+                message.message = "Not Permission";
             }
-            resolve({
-                message: "That bai"
-            });
+
+            resolve(message);
         } catch (e) {
             reject(e);
         }
@@ -179,11 +206,80 @@ let checkRoleOfUser = (user, roleId) => {
     })
 }
 
+let updateUser = (user, data) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let message = {}
+            if (user.position != 1) {
+                if (data.id && data.name && data.phone && data.address) {
+                    let u = await db.User.findOne({
+                        where: {
+                            id: data.id
+                        }
+                    });
+                    if (!u) {
+                        message.errCode = 1;
+                        message.message = "User not found";
+                    } else {
+                        u.name = data.name;
+                        u.phone = data.phone;
+                        u.address = data.address;
+                        await u.save();
+                        message.errCode = 0;
+                        message.message = "OK";
+                    }
+                } else {
+                    message.errCode = 3;
+                    message.message = "Missing value";
+                }
+            } else {
+                message.errCode = 2;
+                message.message = "Not Permission";
+            }
+            resolve(message);
+
+        } catch (e) {
+            reject(e);
+        }
+    })
+}
+
+let deleteUser = (user, userId) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let message = {};
+            if (user.position != 1) {
+                let u = await db.User.findOne({
+                    where: {
+                        id: userId
+                    }
+                });
+                if (u) {
+                    await u.destroy();
+                    message.errCode = 0;
+                    message.message = "Ok";
+                } else {
+                    message.errCode = 2;
+                    message.message = "Not found data";
+                }
+            } else {
+                message.errCode = 2;
+                message.message = "Not Permission";
+            }
+            resolve(message)
+        } catch (e) {
+            reject(e);
+        }
+    })
+}
+
 module.exports = {
     handleLogin: handleLogin,
     getUserByRole: getUserByRole,
     getUserById: getUserById,
     postUser: postUser,
     getUser: getUser,
-    checkRoleOfUser: checkRoleOfUser
+    checkRoleOfUser: checkRoleOfUser,
+    updateUser: updateUser,
+    deleteUser: deleteUser
 }
