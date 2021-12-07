@@ -22,7 +22,7 @@ let initWebRoutes = (app) => {
 
     //API Job
     router.get('/api/getAllJobByRole', jobController.getAllJobByRole);
-    router.get('/api/getJobByUser', jobController.getJobByUser);
+    router.get('/api/getJobByUser', authentication, jobController.getJobByUser);
     router.post('/api/postJob', jobController.postJob);
     router.put('/api/putJobStatus', jobController.updateStatusJob);
 

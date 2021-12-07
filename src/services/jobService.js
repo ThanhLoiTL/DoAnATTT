@@ -21,12 +21,12 @@ let getAllJobByRole = (role) => {
     })
 }
 
-let getJobByUser = (userId) => {
+let getJobByUser = (user) => {
     return new Promise(async (resolve, reject) => {
         try {
             let listJob = await db.Job.findAll({
                 where: {
-                    user: userId,
+                    user: user.userId,
                     status: 2
                 },
                 raw: true

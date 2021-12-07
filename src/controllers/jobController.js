@@ -15,14 +15,14 @@ let getAllJobByRole = async (req, res) => {
 }
 
 let getJobByUser = async (req, res) => {
-    let userId = req.query.userId;
-    if (!userId) {
+    let user = req.user;
+    if (!user) {
         return res.status(500).json({
             errCode: 1,
             message: 'Missing data'
         });
     }
-    let listJob = await jobService.getJobByUser(userId);
+    let listJob = await jobService.getJobByUser(user);
     return res.status(200).json({
         listJob: listJob ? listJob : []
     });
