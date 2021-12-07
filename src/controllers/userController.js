@@ -16,7 +16,7 @@ let handleLogin = async (req, res) => {
         message: userData.message,
         token: userData.token,
         user: userData.user ? userData.user : {}
-    })
+    });
 }
 
 let getUserByRole = async (req, res) => {
@@ -55,10 +55,26 @@ let getUser = async (req, res) => {
     return res.status(200).json(user);
 }
 
+let checkRoleOfUser = async (req, res) => {
+    let user = req.user;
+    let roleId = req.query.roleId;
+    if (!roleId && !user) {
+        return res.status(500).json({
+            message: 'Missing data'
+        });
+    }
+    let data = await userService.checkRoleOfUser(user, roleId);
+    return res.status(200).json({
+        errCode: data.errCode,
+        message: data.message,
+    })
+}
+
 module.exports = {
     handleLogin: handleLogin,
     getUserByRole: getUserByRole,
     getUserById: getUserById,
     postUser: postUser,
-    getUser: getUser
+    getUser: getUser,
+    checkRoleOfUser: checkRoleOfUser
 }

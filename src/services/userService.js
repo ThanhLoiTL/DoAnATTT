@@ -22,10 +22,11 @@ let handleLogin = (email, password) => {
                     if (password === user.password) {
                         let payload = {};
                         payload.userId = user.id;
+                        payload.label = user.label;
+                        payload.role = user.role;
                         payload.name = user.name;
 
                         userData.token = generateJWT(payload);
-                        console.log(userData.token = generateJWT(payload));
                         userData.errCode = 0;
                         userData.message = 'OK';
                         //khong hien thi password ra ngoai
@@ -149,9 +150,29 @@ let getUser = (data) => {
             let user = await db.User.findOne({
                 where: {
                     id: data.userId
-                }
+                },
+                raw: true
             });
+            delete user.password;
             resolve(user);
+        } catch (e) {
+            reject(e);
+        }
+    })
+}
+
+let checkRoleOfUser = (user, roleId) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let data = {};
+            if (user.role === roleId) {
+                data.errCode = 0;
+                data.message = "OK";
+            } else {
+                data.errCode = 1;
+                data.message = "Not Permission";
+            }
+            resolve(data);
         } catch (e) {
             reject(e);
         }
@@ -163,5 +184,6 @@ module.exports = {
     getUserByRole: getUserByRole,
     getUserById: getUserById,
     postUser: postUser,
-    getUser: getUser
+    getUser: getUser,
+    checkRoleOfUser: checkRoleOfUser
 }
