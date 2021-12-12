@@ -105,7 +105,7 @@ let deleteUser = async (req, res) => {
             message: 'Missing data'
         });
     }
-    let mess = await jobService.deleteJob(user, userId);
+    let mess = await userService.deleteJob(user, userId);
     return res.status(200).json({
         message: mess.message,
         errCode: mess.errCode

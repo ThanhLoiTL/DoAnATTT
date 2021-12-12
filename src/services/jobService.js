@@ -47,10 +47,11 @@ let getAllJobByRole = (user, role) => {
 let getJobByUser = (user) => {
     return new Promise(async (resolve, reject) => {
         try {
+            let allow = 2;
             let listJob = await db.Job.findAll({
                 where: {
                     user: user.userId,
-                    status: 2
+                    status: allow
                 },
                 raw: true
             });
@@ -88,22 +89,31 @@ let postJob = (data) => {
 let updateStatusJob = (jobId) => {
     return new Promise(async (resolve, reject) => {
         try {
-            let job = await db.Job.findOne({
-                where: {
-                    id: jobId
+            let message = {}
+            if (user.position != 1) {
+                let job = await db.Job.findOne({
+                    where: {
+                        id: jobId
+                    }
+                });
+                if (!job) {
+                    message.errCode = 1;
+                    message.message = "Job not found";
+                } else {
+                    if (job.status === 1) {
+                        job.status = 2;
+                    } else if (job.status === 2) {
+                        job.status = 1;
+                    }
+                    await job.save();
+                    message.errCode = 0;
+                    message.message = "OK";
                 }
-            });
-            if (!job) {
-                resolve("Job not found");
             } else {
-                if (job.status === 1) {
-                    job.status = 2;
-                } else if (job.status === 2) {
-                    job.status = 1;
-                }
-                await job.save();
-                resolve("Thanh cong");
+                message.errCode = 2;
+                message.message = "Not Permission";
             }
+            resolve(message);
         } catch (e) {
             reject(e);
         }

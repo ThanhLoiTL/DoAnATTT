@@ -37,16 +37,18 @@ let postJob = async (req, res) => {
 }
 
 let updateStatusJob = async (req, res) => {
-    let jobId = req.query.jobId;
-    if (!jobId) {
+    let jobId = req.body.jobId;
+    let user = req.user;
+    if (!jobId && user) {
         return res.status(500).json({
             errCode: 1,
             message: 'Job not found'
         });
     }
-    let message = await jobService.updateStatusJob(jobId);
+    let mess = await jobService.updateStatusJob(user, jobId);
     return res.status(200).json({
-        message: message
+        message: mess.message,
+        errCode: mess.errCode
     });
 }
 

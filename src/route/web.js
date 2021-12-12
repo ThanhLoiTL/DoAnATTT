@@ -26,7 +26,7 @@ let initWebRoutes = (app) => {
     router.get('/api/getAllJobByRole', authentication, jobController.getAllJobByRole);
     router.get('/api/getJobByUser', authentication, jobController.getJobByUser);
     router.post('/api/postJob', jobController.postJob);
-    router.put('/api/putJobStatus', jobController.updateStatusJob);
+    router.put('/api/putJobStatus', authentication, jobController.updateStatusJob);
     router.put('/api/putJob', authentication, jobController.updateJob);
     router.delete('/api/deleteJob', authentication, jobController.deleteJob);
 
