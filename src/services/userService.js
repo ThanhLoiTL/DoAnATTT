@@ -191,8 +191,10 @@ let getUser = (data) => {
 let checkRoleOfUser = (user, roleId) => {
     return new Promise(async (resolve, reject) => {
         try {
+            console.log(roleId);
+            console.log(user.role);
             let data = {};
-            if (user.role === roleId) {
+            if (user.role == roleId) {
                 data.errCode = 0;
                 data.message = "OK";
             } else {

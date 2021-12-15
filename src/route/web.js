@@ -19,7 +19,7 @@ let initWebRoutes = (app) => {
     router.get('/api/getUserById', userController.getUserById);
     router.post('/api/postUser', authentication, userController.postUser);
     router.get('/api/checkRoleOfUser', authentication, userController.checkRoleOfUser);
-    router.put('api/putUser', authentication, userController.updateUser);
+    router.put('/api/putUser', authentication, userController.updateUser);
     router.delete('/api/deleteUser', authentication, userController.deleteUser);
 
     //API Job
